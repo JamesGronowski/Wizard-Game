@@ -9,15 +9,9 @@ public class Player : MonoBehaviour {
     private List<Rune> runeBucket;
     private Turn turn;
 
-	// Use this for initialization
 	void Start () {
         health = 100;
         runeBucket = new List<Rune>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
     public void addRunes()
@@ -26,5 +20,7 @@ public class Player : MonoBehaviour {
         turn.runesAdded.Clear();
     }
     
-    
+    public Turn getTurn() {
+		return turn;
+	}
 }
