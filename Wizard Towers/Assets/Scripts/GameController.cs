@@ -6,7 +6,6 @@ public class GameController : MonoBehaviour
 {
     private Phase currentPhase;
     public enum Phase {Results, Player1, Player2};
-    private enum GodFavour{Fire, Air, Earth, Water};
     private Dictionary<GodFavour, float> favourLevels;
 
 
@@ -16,10 +15,6 @@ public class GameController : MonoBehaviour
         currentPhase = Phase.Player1;
         TriggerPhaseObjects();
         favourLevels = new Dictionary<GodFavour, float>();
-        foreach (GodFavour g in System.Enum.GetValues(typeof(GodFavour)))
-        {
-            favourLevels.Add(g, 0f);
-        }
     }
 
     // Update is called once per frame

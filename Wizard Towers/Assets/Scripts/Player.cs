@@ -19,6 +19,10 @@ public class Player : MonoBehaviour {
         runeBucket.AddRange(turn.runesAdded);
         turn.runesAdded.Clear();
     }
+
+	public void subtractHealth(int damage) {
+		health -= damage;
+	}
     
     public Turn getTurn() {
 		return turn;
