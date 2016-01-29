@@ -31,7 +31,6 @@ public class GameController : MonoBehaviour
     public void EndTurn()
     {
         
-        
         if (currentPhase == Phase.Player2)
         {
             currentPhase = Phase.Results;
@@ -42,6 +41,8 @@ public class GameController : MonoBehaviour
         }
 
         Debug.Log(currentPhase.ToString());
+		Debug.Log(Ritual.FIREBALL.Castable(new Rune[] {Rune.a}));
+		Debug.Log(Ritual.FIREBALL.Castable(new Rune[] {Rune.a, Rune.f}));
         
         TriggerPhaseObjects();
 
