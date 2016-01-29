@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     private enum StatusEffect { };//fill
     private int health;
     private List<Rune> runeBucket;
+    private Turn turn;
 
 	// Use this for initialization
 	void Start () {
@@ -19,11 +20,10 @@ public class Player : MonoBehaviour {
 	
 	}
 
-    public void addRune(Rune rune)
+    public void addRunes()
     {
-        runeBucket.Add(rune);
-        
-
+        runeBucket.AddRange(turn.runesAdded);
+        turn.runesAdded.Clear();
     }
     
     
