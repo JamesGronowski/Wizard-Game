@@ -25,4 +25,28 @@ public class Ritual
             yield return FIREBALL;
         }
     }
+
+	public bool Castable(Rune[] bucket)
+	{
+		foreach (Rune r in System.Enum.GetValues(typeof(Rune)))
+		{
+			int min = RuneCount(runes, r);
+			if (RuneCount(bucket, r) < min){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private int RuneCount(Rune[] runes, Rune rune) {
+		int count = 0;
+		foreach (Rune r in runes) {
+			if (r == rune) {
+				count++;
+			}
+		}
+
+		return count;
+	}
 }

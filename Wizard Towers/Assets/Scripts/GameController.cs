@@ -31,7 +31,6 @@ public class GameController : MonoBehaviour
     public void EndTurn()
     {
         
-        
         if (currentPhase == Phase.Player2)
         {
             currentPhase = Phase.Results;
@@ -42,9 +41,14 @@ public class GameController : MonoBehaviour
         }
 
         Debug.Log(currentPhase.ToString());
-
-
+		Debug.Log(Ritual.FIREBALL.Castable(new Rune[] {Rune.a}));
+		Debug.Log(Ritual.FIREBALL.Castable(new Rune[] {Rune.a, Rune.f}));
+        
         TriggerPhaseObjects();
+
+        if (currentPhase == Phase.Results) {
+            RunResults();
+        }
     }
 
     void TriggerPhaseObjects()
@@ -53,6 +57,15 @@ public class GameController : MonoBehaviour
         foreach (PhaseButton p in phaseObjects)
         {
             p.OnPhase(currentPhase);
+        }
+    }
+
+    void RunResults()
+    {
+        Player[] players = FindObjectsOfType(typeof(Player)) as Player[];
+        foreach (Player p in players)
+        {
+            p.addRunes();
         }
     }
 
