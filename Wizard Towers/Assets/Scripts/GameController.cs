@@ -6,7 +6,6 @@ public class GameController : MonoBehaviour
 {
     private Phase currentPhase;
     public enum Phase {Results, Player1, Player2};
-    private Dictionary<GodFavour, float> favourLevels;
 
 
     // Use this for initialization
@@ -14,7 +13,6 @@ public class GameController : MonoBehaviour
     {
         currentPhase = Phase.Player1;
         TriggerPhaseObjects();
-        favourLevels = new Dictionary<GodFavour, float>();
     }
 
     // Update is called once per frame
