@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
+
+	[HideInInspector]
+	public bool castingEffect = false;
+	[HideInInspector]
+	public bool castingAnimation = false;
     
     private enum StatusEffect { };//fill
     private int health;
@@ -20,8 +25,8 @@ public class Player : MonoBehaviour {
         turn.runesAdded.Clear();
     }
 
-	public void subtractHealth(int damage) {
-		health -= damage;
+	public void addHealth(int damage) {
+		health += damage;
 	}
     
     public Turn getTurn() {

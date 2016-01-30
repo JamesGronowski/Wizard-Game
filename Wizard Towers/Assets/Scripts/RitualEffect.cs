@@ -3,7 +3,23 @@ using System.Collections;
 
 public class RitualEffect : MonoBehaviour {
 
-	public static void FireballEffect(Player source) {
-		//source.getTurn().target.addHealth(-10);
+	public static RitualEffect instance;
+
+	void Start()
+	{
+		if (instance == null) {
+			instance = new RitualEffect();
+		} else {
+			Destroy(this);
+		}
+	}
+	
+	public RitualEffect() {
+	}
+
+	public static void FireballEffect() {
+		Player source = GameController.instance.currentCaster;
+		source.getTurn().target.addHealth(-10);
+		source.castingEffect = false;
 	}
 }

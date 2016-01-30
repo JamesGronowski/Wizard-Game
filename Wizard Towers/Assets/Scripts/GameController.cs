@@ -7,19 +7,26 @@ public class GameController : MonoBehaviour
     private Phase currentPhase;
     public enum Phase {Results, Player1, Player2};
 
+	public Player player1, player2;
+	[HideInInspector]
+	public Player currentCaster;
 
-    // Use this for initialization
+	public static GameController instance;
+
+
     void Start()
     {
-        currentPhase = Phase.Player1;
-        TriggerPhaseObjects();
+		if (instance == null) {
+			instance = new GameController();
+		} else {
+			Destroy(this);
+		}
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	public GameController() {
+		currentPhase = Phase.Player1;
+		TriggerPhaseObjects();
+	}
 
     public void EndTurn()
     {
@@ -60,6 +67,19 @@ public class GameController : MonoBehaviour
         {
             p.addRunes();
         }
+
+		currentCaster = player1;
+		currentCaster.castingEffect = true;
+		RitualEffect.Invoke(currentCaster.getTurn().ritualCast);
+		while (currentCaster.castingEffect == true) {
+			yield return null;
+		}
+		currentCaster = player2;
+		currentCaster.castingEffect = true;
+		RitualEffect.Invoke(currentCaster.getTurn().ritualCast);
+		while (currentCaster.castingEffect == true) {
+			yield return null;
+		}
     }
 
 }
