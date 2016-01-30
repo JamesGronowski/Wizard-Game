@@ -4,29 +4,22 @@ using System.Collections;
 public class RitualAnimation : MonoBehaviour {
 
 	public GameObject fireBallObj;
-	public float speed;
-
-
 	[Space(5)]
-	public GameObject testPlayer;
+	public GameObject lightShieldObj;
+	public float shieldXDistance;
+
 
 	public void FireballAnimation(Player source) 
 	{
-		
-		
-		//Instantiate(fireBallObj,testPlayer.transform.position,Quaternion.identity);
+		Instantiate(fireBallObj,new Vector3(source.transform.position.x,source.transform.position.y,-5),Quaternion.identity);
 
-		//Animate caster
-		//Create fireball
-		//source.transform.position
 	}
 
-	void Update()
+	public void ShieldAnimation(Player source) 
 	{
-		if(Input.GetKeyDown(KeyCode.A))
-		{
-			Instantiate(fireBallObj,new Vector3(fireBallObj.transform.position.x,fireBallObj.transform.position.y,-5),Quaternion.identity);
-		}
+		Instantiate(lightShieldObj,new Vector3(source.transform.position.x + shieldXDistance,source.transform.position.y,-5),Quaternion.identity);
 
 	}
+
+
 }

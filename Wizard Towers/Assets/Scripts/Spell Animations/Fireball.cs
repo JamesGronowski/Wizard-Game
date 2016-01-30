@@ -5,7 +5,7 @@ public class Fireball : MonoBehaviour {
 
 	public float speed;
 
-
+	public Player playObj;
 
 	// Use this for initialization
 	void Start () {
@@ -16,9 +16,10 @@ public class Fireball : MonoBehaviour {
 	void Update () 
 	{
 
-		//Instantiate(
+		gameObject.transform.position += playObj.transform.position * speed * Time.deltaTime;
 
-		transform.Translate(speed * Time.deltaTime,0,0);
+
+		//transform.Translate(speed * Time.deltaTime,0,0);
 		
 	
 	}
