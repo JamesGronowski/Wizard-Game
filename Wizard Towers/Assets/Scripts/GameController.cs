@@ -68,18 +68,43 @@ public class GameController : MonoBehaviour
             p.addRunes();
         }
 
-		currentCaster = player1;
-		currentCaster.castingEffect = true;
-		RitualEffect.Invoke(currentCaster.getTurn().ritualCast);
-		while (currentCaster.castingEffect == true) {
-			yield return null;
+		Ritual p1Ritual = player1.getTurn().ritualCast;
+		Ritual p2Ritual = player2.getTurn().ritualCast;
+		if (p1Ritual != null && p2Ritual != null) {
+			//P1 goes first on same-spell. Shouldn't make a difference. Can case-by-case it later.
+			if (p1Ritual.GetPriority() < p2Ritual.GetPriority()) {
+				currentCaster = player2;
+				Cast();
+				currentCaster = player1;
+				Cast();
+			} else {
+				currentCaster = player1;
+				Cast();
+				currentCaster = player2;
+				Cast();
+			}
+		} else if (p1Ritual != null) {
+			currentCaster = player1;
+			Cast();
+		} else if (p2Ritual != null) {
+			currentCaster = player2;
+			Cast();
 		}
-		currentCaster = player2;
-		currentCaster.castingEffect = true;
-		RitualEffect.Invoke(currentCaster.getTurn().ritualCast);
-		while (currentCaster.castingEffect == true) {
-			yield return null;
-		}
+
+		TurnCleanup();
     }
+
+	void Cast() {
+		currentCaster.castingEffect = true;
+		RitualEffect.Invoke(currentCaster.getTurn().ritualCast);
+		while (currentCaster.castingEffect == true) {
+			yield return null;
+		}
+	}
+
+	void TurnCleanup() {
+		player1.TurnCleanup();
+		player2.TurnCleanup();
+	}
 
 }

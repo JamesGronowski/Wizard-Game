@@ -30,6 +30,10 @@ public class Ritual
         }
     }
 
+	public int GetPriority() {
+		return priority;
+	}
+
 	public bool Castable(Rune[] bucket)
 	{
 		foreach (Rune r in System.Enum.GetValues(typeof(Rune)))
