@@ -1,33 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 public class GameController : MonoBehaviour
 {
     private Phase currentPhase;
     public enum Phase {Results, Player1, Player2};
-    private Phase currentView;
 
-    public CameraBehaviour cam;
+	public Player player1, player2;
+	[HideInInspector]
+	public Player currentCaster;
 
-    // Use this for initialization
+	public static GameController instance;
+
+
     void Start()
     {
-        currentPhase = Phase.Player1;
-        TriggerPhaseObjects();
-
-        currentView = Phase.Player1;
-        TriggerCameraView();
+		if (instance == null) {
+			instance = new GameController();
+		} else {
+			Destroy(this);
+		}
     }
 
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	public GameController() {
+		currentPhase = Phase.Player1;
+		TriggerPhaseObjects();
+	}
 
     public void EndTurn()
     {
@@ -41,21 +40,11 @@ public class GameController : MonoBehaviour
             currentPhase++;
         }
 
-        if (currentView == Phase.Player2)
-        {
-            currentView = Phase.Results;
-        }
-        else
-        {
-            currentView++;
-        }
-
         Debug.Log(currentPhase.ToString());
 		Debug.Log(Ritual.FIREBALL.Castable(new Rune[] {Rune.a}));
 		Debug.Log(Ritual.FIREBALL.Castable(new Rune[] {Rune.a, Rune.f}));
         
         TriggerPhaseObjects();
-        TriggerCameraView();
 
         if (currentPhase == Phase.Results) {
             RunResults();
@@ -78,11 +67,44 @@ public class GameController : MonoBehaviour
         {
             p.addRunes();
         }
+
+		Ritual p1Ritual = player1.getTurn().ritualCast;
+		Ritual p2Ritual = player2.getTurn().ritualCast;
+		if (p1Ritual != null && p2Ritual != null) {
+			//P1 goes first on same-spell. Shouldn't make a difference. Can case-by-case it later.
+			if (p1Ritual.GetPriority() < p2Ritual.GetPriority()) {
+				currentCaster = player2;
+				Cast();
+				currentCaster = player1;
+				Cast();
+			} else {
+				currentCaster = player1;
+				Cast();
+				currentCaster = player2;
+				Cast();
+			}
+		} else if (p1Ritual != null) {
+			currentCaster = player1;
+			Cast();
+		} else if (p2Ritual != null) {
+			currentCaster = player2;
+			Cast();
+		}
+
+		TurnCleanup();
     }
 
-    void TriggerCameraView()
-    {
-        cam.OnViewChange(currentView);
-    }
+	void Cast() {
+		currentCaster.castingEffect = true;
+		RitualEffect.Invoke(currentCaster.getTurn().ritualCast);
+		while (currentCaster.castingEffect == true) {
+			yield return null;
+		}
+	}
+
+	void TurnCleanup() {
+		player1.TurnCleanup();
+		player2.TurnCleanup();
+	}
 
 }
