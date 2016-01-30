@@ -17,6 +17,8 @@ public class Fireball : MonoBehaviour {
 	{
 
 		//Instantiate(
+
+		transform.Translate(speed * Time.deltaTime,0,0);
 		
 	
 	}
